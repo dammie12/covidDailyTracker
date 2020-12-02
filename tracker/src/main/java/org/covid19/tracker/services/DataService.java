@@ -8,6 +8,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 
@@ -24,10 +25,12 @@ public class DataService {
 
 	private static String VIRUS_DATA_URL = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_US.csv";
 	private List<LocationStats> allStats = new ArrayList<>();
-	
+	private List<String> allStates = new ArrayList<>();
+	private List<LocationStats> eachState = new ArrayList<>();
+
 
 	@PostConstruct
-	@Scheduled(cron = "* 1 * * * *")
+	@Scheduled(cron = "* * * 1 * *")
 	public void fetchCovidData() throws IOException, InterruptedException {
 		List<LocationStats> newStats = new ArrayList<>();
 		
@@ -58,4 +61,20 @@ public class DataService {
 		return allStats;
 	}
 	
+	public List<String> getAllStates() {
+		this.allStates = this.allStats
+					.stream()
+					.map(s -> s.getState())
+					.distinct()
+					.collect(Collectors.toList());
+		return allStates;
+	}
+	
+	public List<LocationStats> getEachState(String state) {
+		this.eachState = this.allStats
+					.stream()
+					.filter(s -> s.getState().equalsIgnoreCase(state))
+					.collect(Collectors.toList());
+		return eachState;
+	}
 }

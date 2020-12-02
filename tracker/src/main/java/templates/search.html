@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+  <head>
+    <title>CoronaVirus Tracker</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+  </head>
+
+  <body>
+  <div class="container">
+  <h1>Covid-19 Daily Tracker - Search</h1>
+
+		<select class="dropdown" th:field="${allStates}">
+		  	<option th:each="allState : ${allStates}" 
+		          th:value="${allState}" 
+		          th:text="${allState}" />
+		</select>
+
+  </div>
+  </body>
+
+</html>
